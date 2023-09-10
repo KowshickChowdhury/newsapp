@@ -8,7 +8,7 @@ export class Newsitem extends Component {
     return (
       <div className='my-3'>
             <div className="card" style={{width: "18rem"}}>
-            <img src={imageUrl} className="card-img-top" alt="..." />
+            <img src={!imageUrl?"https://photo-assets.usopen.org/images/pics/large/f_20230907_USO_D11_BDC00431.jpg":imageUrl} className="card-img-top" alt="..." />
             <div className="card-body">
                 <h5 className="card-title">{title}...</h5>
                 <p className="card-text">{description}...</p>
