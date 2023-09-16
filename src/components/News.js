@@ -29,6 +29,19 @@ export class News extends Component {
     };
   }
 
+  async updateNews(){
+    let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=2066ccf18ce14fb7be874975bf978074&page=${this.state.page}&pageSize=${this.props.pageSize}`;
+    this.setState({loading:true});
+    let data = await fetch(url);
+    let parsedData = await data.json();
+    console.log(parsedData);
+    this.setState({
+      articles: parsedData.articles, 
+      totalResults:parsedData.totalResults,
+      loading : false
+          })
+  }
+
   async componentDidMount(){
     console.log ("cdm");
     let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=2066ccf18ce14fb7be874975bf978074&page=1&pageSize=${this.props.pageSize}`;
@@ -45,39 +58,43 @@ export class News extends Component {
   
   handlePrevCLick= async ()=>{
     console.log("Previous")
-    this.setState({loading:true});
+    // this.setState({loading:true});
     
-    setTimeout( async () => {
-      let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=2066ccf18ce14fb7be874975bf978074&page=${this.state.page - 1}&pageSize=${this.props.pageSize}`;
-      let data = await fetch(url);
-      let parsedData = await data.json()
-      console.log(parsedData);
-      this.setState({
-        page : this.state.page - 1,
-        articles: parsedData.articles,
-        loading : false
-      })
-    }, 500);
+    // setTimeout( async () => {
+    //   let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=2066ccf18ce14fb7be874975bf978074&page=${this.state.page - 1}&pageSize=${this.props.pageSize}`;
+    //   let data = await fetch(url);
+    //   let parsedData = await data.json()
+    //   console.log(parsedData);
+    //   this.setState({
+    //     page : this.state.page - 1,
+    //     articles: parsedData.articles,
+    //     loading : false
+    //   })
+    // }, 500);
+    this.setState({page: this.state.page - 1})
+    this.updateNews();
   }
   handleNextCLick= async ()=>{
     console.log("Next");
-    if(!(this.state.page + 1 > Math.ceil(this.state.totalResults/this.props.pageSize)))
-    {
-      this.setState({loading: true});
-      setTimeout( async ()=>
-      {
-        this.setState({loading: true});
-        let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=2066ccf18ce14fb7be874975bf978074&page=${this.state.page + 1}&pageSize=${this.props.pageSize}`;
+    // if(!(this.state.page + 1 > Math.ceil(this.state.totalResults/this.props.pageSize)))
+    // {
+    //   this.setState({loading: true});
+    //   setTimeout( async ()=>
+    //   {
+    //     this.setState({loading: true});
+    //     let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=2066ccf18ce14fb7be874975bf978074&page=${this.state.page + 1}&pageSize=${this.props.pageSize}`;
         
-        let data = await fetch(url);
-        let parsedData = await data.json()
-        this.setState({
-        page : this.state.page + 1,
-        articles: parsedData.articles,
-        loading : false
-        });
-      }, 500);
-    }
+    //     let data = await fetch(url);
+    //     let parsedData = await data.json()
+    //     this.setState({
+    //     page : this.state.page + 1,
+    //     articles: parsedData.articles,
+    //     loading : false
+    //     });
+    //   }, 500);
+    // }
+    this.setState({page: this.state.page + 1})
+    this.updateNews();
   }
   
 
